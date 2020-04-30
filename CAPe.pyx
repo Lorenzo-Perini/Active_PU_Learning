@@ -12,12 +12,12 @@ from sklearn.ensemble import IsolationForest
 from libc.math cimport log10, exp
 
 #-----------------------------------------------------------------------------------------------------------------------
-cpdef APEPUL(data, labeled_ex, list query_list = [], int k = 5, real_anomalies = [], float tmp_cont = 0.1,\
+cpdef CAPe(data, labeled_ex, list query_list = [], int k = 5, real_anomalies = [], float tmp_cont = 0.1,\
              float mean_prob_term = -1.7, int case = 0, n_jobs = cpu_count()):
     
-    """ Estimate the class prior according to the model provided in the paper. First, this method creates the global ranking,
-        where higher position means higher probability to be queried. Second, it estimates the propensity scores using the
-        counting techniques as explained in the paper. Third, from the propensity scores the class prior is computed. 
+    """ Estimate the class prior according to the model CAPe provided in the paper. First, this method creates the global
+        ranking, where higher position means higher probability to be queried. Second, it estimates the propensity scores
+        using the counting techniques as explained in the paper. Third, from the propensity scores the class prior is computed. 
         
         Parameters
         ----------
@@ -55,7 +55,7 @@ cpdef APEPUL(data, labeled_ex, list query_list = [], int k = 5, real_anomalies =
         idx = gr[i]
         old_to_new[idx] = i
         
-    eightpct = int(max(0.08*n_norm,1))
+    eightpct = int(max(0.08*n_norm,1)) #Here you can change the granularity of the subsets.
     fifteenpct = int(0.15*n_norm)
 
     steps = int(min(eightpct,5))

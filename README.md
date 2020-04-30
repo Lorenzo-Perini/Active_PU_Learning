@@ -1,2 +1,2 @@
-# Active_PU_Learning
-Class Prior Estimation in Active Positive and Unlabeled Learning
+# CAPe
+Class prior estimation in Active Positive and unlabeled lEarning

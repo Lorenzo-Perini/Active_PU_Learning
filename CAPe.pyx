@@ -312,7 +312,6 @@ cpdef list compute_user_uncertainty(data, anomalies, float tmp_cont = 0.1, int c
     cdef float gamma
     cdef double score
     if case == 0:
-        #user_uncertainty = [0 if x in anomalies else 1 for x in range(N)]
         for i from 0 <= i < N by 1:
             flag = 0
             for 0 <= j < n_anom:

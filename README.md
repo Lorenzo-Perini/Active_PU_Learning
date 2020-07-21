@@ -16,11 +16,11 @@ The repository contains:
 
 To use CAPe, import the github repository or simply download the files. You can also find the benchmark datasets inside the folder Benchmark_Datasets or at this [[link](https://www.dbs.ifi.lmu.de/research/outlier-evaluation/DAMI/)].
 
-Note that CAPe [1] has been developed in [[Cython](https://cython.org/)] (see Dependencies).
+Note that CAPe [1] has been developed in *Cython* (see Dependencies).
 
 For examples of how to use the algorithm on benchmark datasets see the notebook inside `Experiments/`.
 
-For further examples about the usage of the model *SSDO*, visit the GitHub page [[anomatools](https://github.com/Vincent-Vercruyssen/anomatools)]
+For further examples about the usage of the model *SSDO*, visit the following GitHub page [[anomatools](https://github.com/Vincent-Vercruyssen/anomatools)].
 
 ## Class prior estimation in Active Positive and unlabeled lEarning (CAPe)
 
@@ -31,10 +31,11 @@ After adding  new labels to the training data, the class prior is estimated on t
 1) **CAPe** creates the **global ranking**, where the higher is position, the higher is probability to be queried, 
 2) it estimates the **propensity scores** using the counting techniques as explained in [1] and, 
 3) the **class prior** is computed from the propensity scores.
+
 Then, **SSDO** [2] classifier is retrained, and its performance on the test set is measured (using the estimated class prior to obtain binary predictions for the test data).
 The process **stops** when 150 examples are labeled.
 
-Given a (training) dataset **X_train** with partial labels *y* (where 1 means positive and 0 means unlabeled), the number of labels k to acquire in each iteration, the algorithm **CAPe** is applied as follows:
+Given a (training) dataset **X_train** with partial labels *y* (where 1 means positive and 0 means unlabeled), and the number of labels **k** to be acquired in each iteration, the algorithm **CAPe** is applied as follows:
 
 ```python
 from anomatools.models import SSDO

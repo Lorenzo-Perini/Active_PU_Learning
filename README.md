@@ -1,7 +1,10 @@
 # Active_PU_Learning
 
 `Active_PU_Learning` (Active Positive and Unlabeled Learning) is a GitHub repository containing the **CAPe** [1] algorithm.
-It refers to the paper titled *Class prior estimation in active positive andunlabeled learning*. Read the pdf here: [[pdf](https://www.ijcai.org/Proceedings/2020/403)].
+
+It refers to the paper titled *Class prior estimation in active positive andunlabeled learning*. 
+
+Read the pdf here: [[pdf](https://www.ijcai.org/Proceedings/2020/403)].
 
 ## Abstract
 Estimating the proportion of positive examples (i.e., the class prior) from positive and unlabeled (PU) data is an important task that facilitates learning a classifier from such data.  We explore how to tackle this problem when the observed labels were acquired via active learning. This introduces the challenge that the observed labels were not selected completely at random, which is the primary assumption underpinning existing approaches to estimating the class prior from PU data. We analyze this new setting and design **CAPe** [1], an algorithm that is able to estimate the class prior for a given active learning strategy. Our approach shows up being accurate and stable in recovering the true class prior.
@@ -57,8 +60,8 @@ dmu = [np.exp(ker.score(X_train[i:i+1])) for i in range(n)]
 mean_prob_term = math.log(np.mean(dmu),10)  #Take the log density
 
 # Estimate the class prior with CAPe
-prior, labeled_ex, query_list = CAPe(X_train, labeled_ex, query_list, k, real_anomalies, 1-prior_bet,\
-				      mean_prob_term, case)
+prior, labeled_ex, query_list = CAPe(X_train, labeled_ex, query_list, k, real_anomalies,
+				      1-prior_bet, mean_prob_term, case)
 ```
 
 ## Dependencies
@@ -72,12 +75,13 @@ The `CAPe` function requires the following python packages to be used:
 
 ## Contact
 
-Contact the author of the paper: [lorenzo.perini@kuleuven.be](mailto:lorenzo.perini@kuleuven.be)
+Contact the author of the paper: [lorenzo.perini@kuleuven.be](mailto:lorenzo.perini@kuleuven.be).
 
 
 ## References
 
-[1] Perini, L., Vercruyssen, V., Davis, J.: *Class prior estimation in active positive and unlabeled learning.* In: Proceedings of the 29th International Joint Conferenceon Artificial Intelligence and the 17th Pacific Rim International Conference on Artificial Intelligence (IJCAI-PRICAI) (2020)
-[2] Vercruyssen, V., Wannes, M., Gust, V., Koen, M., Ruben, B., Jesse, D.: *Semi-supervised anomaly detection with an application to water analytics.* In: Proceedings of 18th IEEE International Conference on Data Mining. pp. 527–536. IEEE (2018)
+[1] Perini, L., Vercruyssen, V., Davis, J.: *Class prior estimation in active positive and unlabeled learning.* In: Proceedings of the 29th International Joint Conferenceon Artificial Intelligence and the 17th Pacific Rim International Conference on Artificial Intelligence (IJCAI-PRICAI) (2020).
+
+[2] Vercruyssen, V., Wannes, M., Gust, V., Koen, M., Ruben, B., Jesse, D.: *Semi-supervised anomaly detection with an application to water analytics.* In: Proceedings of 18th IEEE International Conference on Data Mining. pp. 527–536. IEEE (2018).
 
 

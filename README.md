@@ -1,10 +1,10 @@
 # Active_PU_Learning
 
-`Active_PU_Learning` (Active Positive and Unlabeled Learning) is a GitHub repository containing the **CAPe**[1] algorithm.
-It refers to the paper titled *Class prior estimation in active positive andunlabeled learning* ([[pdf] (https://www.ijcai.org/Proceedings/2020/403)]).
+`Active_PU_Learning` (Active Positive and Unlabeled Learning) is a GitHub repository containing the **CAPe** [1] algorithm.
+It refers to the paper titled *Class prior estimation in active positive andunlabeled learning*. Read the pdf here: [[pdf](https://www.ijcai.org/Proceedings/2020/403)].
 
 ## Abstract
-Estimating the proportion of positive examples (i.e., the class prior) from positive and unlabeled (PU) data is an important task that facilitates learning a classifier from such data.  We explore how to tackle this problem when the observed labels were acquired via active learning. This introduces the challenge that the observed labels were not selected completely at random, which is the primary assumption underpinning existing approaches to estimating the class prior from PU data. We analyze this new setting and design **CAPe**[1], an algorithm that is able to estimate the class prior for a given active learning strategy. Our approach shows up being accurate and stable in recovering the true class prior.
+Estimating the proportion of positive examples (i.e., the class prior) from positive and unlabeled (PU) data is an important task that facilitates learning a classifier from such data.  We explore how to tackle this problem when the observed labels were acquired via active learning. This introduces the challenge that the observed labels were not selected completely at random, which is the primary assumption underpinning existing approaches to estimating the class prior from PU data. We analyze this new setting and design **CAPe** [1], an algorithm that is able to estimate the class prior for a given active learning strategy. Our approach shows up being accurate and stable in recovering the true class prior.
 
 ## Contents and usage
 
@@ -16,11 +16,11 @@ The repository contains:
 
 To use CAPe, import the github repository or simply download the files. You can also find the benchmark datasets inside the folder Benchmark_Datasets or at this [[link](https://www.dbs.ifi.lmu.de/research/outlier-evaluation/DAMI/)].
 
-Note that CAPe[1] has been developed in [[Cython] (https://cython.org/)] (see Dependencies).
+Note that CAPe [1] has been developed in [[Cython](https://cython.org/)] (see Dependencies).
 
 For examples of how to use the algorithm on benchmark datasets see the notebook inside `Experiments/`.
 
-For further examples about the usage of the model *SSDO*, visit the GitHub page [[anomatools] (https://github.com/Vincent-Vercruyssen/anomatools)]
+For further examples about the usage of the model *SSDO*, visit the GitHub page [[anomatools](https://github.com/Vincent-Vercruyssen/anomatools)]
 
 ## Class prior estimation in Active Positive and unlabeled lEarning (CAPe)
 
@@ -31,7 +31,7 @@ After adding  new labels to the training data, the class prior is estimated on t
 1) **CAPe** creates the **global ranking**, where the higher is position, the higher is probability to be queried, 
 2) it estimates the **propensity scores** using the counting techniques as explained in [1] and, 
 3) the **class prior** is computed from the propensity scores.
-Then, **SSDO**[2] classifier is retrained, and its performance on the test set is measured (using the estimated class prior to obtain binary predictions for the test data).
+Then, **SSDO** [2] classifier is retrained, and its performance on the test set is measured (using the estimated class prior to obtain binary predictions for the test data).
 The process **stops** when 150 examples are labeled.
 
 Given a (training) dataset **X_train** with partial labels *y* (where 1 means positive and 0 means unlabeled), the number of labels k to acquire in each iteration, the algorithm **CAPe** is applied as follows:

@@ -1,7 +1,6 @@
 # Active_PU_Learning
 
 `Active_PU_Learning` (Active Positive and Unlabeled Learning) is a GitHub repository containing the **CAPe** [1] algorithm.
-
 It refers to the paper titled *Class prior estimation in active positive andunlabeled learning*. 
 
 Read the pdf here: [[pdf](https://www.ijcai.org/Proceedings/2020/403)].

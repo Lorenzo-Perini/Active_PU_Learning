@@ -4,12 +4,12 @@ import pandas as pd
 import random
 import math
 import matplotlib
-from SSAD_functions import *
 from sklearn.neighbors import KernelDensity
 from multiprocessing import Pool, freeze_support, cpu_count
 from anomatools.models import SSDO
 from sklearn.ensemble import IsolationForest
 from libc.math cimport log10, exp
+from functools import reduce
 
 #-----------------------------------------------------------------------------------------------------------------------
 cpdef CAPe(data, labeled_ex, list query_list = [], int k = 5, real_anomalies = [], float tmp_cont = 0.1,\
@@ -71,7 +71,7 @@ cpdef CAPe(data, labeled_ex, list query_list = [], int k = 5, real_anomalies = [
     #train the model and compute the prior
     prior = from_propensity_score_to_class_prior(propensity_score, normal_prob, labeled_ex)
 
-    return prior, labeled_ex, query_list
+    return prior, labeled_ex, query_list, propensity_score
 
 #-----------------------------------------------------------------------------------------------------------------------
 cpdef make_a_global_ranking(data, labeled_ex, list query_list = [], int k = 5, real_anomalies = [],\
@@ -109,7 +109,7 @@ cpdef make_a_global_ranking(data, labeled_ex, list query_list = [], int k = 5, r
     cdef double[:] train_prior
     
     if not set(already_queried_idxs).issubset(set(query_list)):
-        print('Copying existing labels into query list.')
+        print 'Copying existing labels into query list.'
         query_list = already_queried_idxs
     
     user_uncertainty = compute_user_uncertainty(data, real_anomalies, tmp_cont, case)
@@ -139,7 +139,7 @@ cpdef make_a_global_ranking(data, labeled_ex, list query_list = [], int k = 5, r
                 n_labels = n_labels+1
             else:
                 number_queried_points = number_queried_points +1
-    
+            #print 'Queried index:', idx_query_point,'. Label:', labeled_ex[idx_query_point]
     detector = SSDO(k=3, alpha=2.3, unsupervised_prior='other', contamination = tmp_cont)
     detector.fit(data, np.negative(labeled_ex), prior = train_prior)
     prediction = list(detector.predict(data, prior = train_prior))
@@ -148,16 +148,16 @@ cpdef make_a_global_ranking(data, labeled_ex, list query_list = [], int k = 5, r
     cdef double [:] normal_prob = detector.predict_proba(data, prior=train_prior, method='unify')[:, 0]
     
     if lenquerylist >= N:
-        print('Queried all the examples in the data set. The user should still label', N-k,'points.')
+        print 'Queried all the examples in the data set. The user has labeled',sum(labeled_ex),'points out of',N,'.'
         gr = [x for x in query_list if x not in pred_anom]
-        return gr, labeled_ex, query_list, pred_anom, normal_prob
+        return gr, labeled_ex, query_list, normal_prob, user_uncertainty
     
     ranking = [x for x in query_list]
     not_ranked_points = [t for [x,t] in index[1:]]
     ranking.extend(not_ranked_points)
     gr = [x for x in ranking if x not in pred_anom]
-    user_uncertainty = compute_user_uncertainty(data, pred_anom, tmp_cont, case)
     #print('Global Ranking done.')
+    #gr, labeled_ex, query_list, normal_prob, user_uncertainty
     return gr, labeled_ex, query_list, normal_prob, user_uncertainty
 
 #-------------------------------------------------------------------------------------------------
@@ -232,6 +232,8 @@ cpdef prop_score(propensity_score, int n, list gr, dict old_to_new, list user_un
                                                                         k, mean_user_uncertainty)
         else:
             raise ValueError(case, 'The case must be 0 or 2.')
+            
+        #print idx, tot_cases, mean_prob_term, prob_be_queried_in_topk
         propensity_score[idx] = 10**(tot_cases+mean_prob_term) * user_uncertainty[idx]*\
                                 (prob_be_queried_in_topk + (1-prob_be_queried_in_topk)*prob_be_queried_not_topk)
     return propensity_score
@@ -257,7 +259,8 @@ cdef double from_propensity_score_to_class_prior(propensity_score, normal_prob, 
         prior : float with the estimated class prior value.
     """
     
-    cdef int N = len(labeled_ex), k = reduce(lambda x,y: x+y, labeled_ex)
+    cdef int N = len(labeled_ex)
+    k = reduce(lambda x,y: x+y, labeled_ex)
     cdef float labeled_contribution, unlabeled_contribution, prior, norm_prop_score
     
     norm_prop_score = reduce(lambda x,y: x+y, propensity_score)
